@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile | Techademy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      padding: 60px 15px;
+    }
+
+    .form-container {
+      max-width: 650px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideUp 0.5s ease;
+    }
+
+    h3 {
+      color: #00eaff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    label {
+      font-weight: 500;
+      color: #f1f1f1;
+    }
+
+    .form-control {
+      background-color: #1c1c1c;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #00eaff;
+      box-shadow: none;
+      background-color: #222;
+    }
+
+    .btn-submit {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      color: white;
+      font-weight: 500;
+      padding: 12px 28px;
+      border-radius: 30px;
+      transition: 0.3s ease-in-out;
+    }
+
+    .btn-submit:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h3>Edit Your Profile</h3>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instructor Dashboard | Techademy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0f2027;
+    }
+
+    .navbar {
+      background-color: rgba(15, 32, 39, 0.9);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-link, .navbar-brand {
+      color: white !important;
+      font-weight: 500;
+    }
+
+    .hero-section {
+      background: url('{% static "img/instructor_banner.jpg" %}') no-repeat center center/cover;
+      padding: 250px 0;
+      text-align: left;
+      color: white;
+      position: relative;
+    }
+
+    .hero-section h1 {
+      font-size: 40px;
+      font-weight: 600;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .hero-section p {
+      font-size: 18px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .dashboard-cards {
+      margin-top: -30px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .card-box {
+      border: none;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      min-height: 370px;
+      background: #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .card-box img {
+      width: 180px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .card-box h4 {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .card-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    }
+
+    .bg1 { background: linear-gradient(135deg, #fceabb, #f8b500); }
+    .bg2 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .bg3 { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+    .bg4 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+
+    .dashboard-btn {
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      color: white;
+      font-weight: 600;
+      border-radius: 25px;
+      padding: 10px 24px;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+    }
+
+    .dashboard-btn:hover {
+      background: linear-gradient(to right, #ee0979, #ff6a00);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">Techademy</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a href="{% url 'instructor_dashboard' %}" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="{% url 'instructor_profile' %}" class="nav-link">Profile</a></li>
+        <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1>Welcome, {{ request.user.get_full_name }}</h1>
+    <p class="lead mt-3">"The influence of a great instructor can never be erased."</p>
+  </div>
+</section>
+
+<!-- Dashboard Cards -->
+<section class="container dashboard-cards py-5">
+  <div class="row g-4 justify-content-center">
+    <div class="col-md-6 col-lg-3">
+      <div class="card-box bg1">
+        <img src="{% static 'img/my_course.jpg' %}" alt="Courses">
+        <h4 class="mt-3">My Courses</h4>
+        <a href="{% url 'instructor_course_list' %}" class="btn dashboard-btn mt-3">VIEW COURSES</a>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="card-box bg2">
+        <img src="{% static 'img/add_course.jpg' %}" alt="Add Course">
+        <h4 class="mt-3">Add Course</h4>
+        <a href="{% url 'add_course' %}" class="btn dashboard-btn mt-3">CREATE NOW</a>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="card-box bg3">
+        <img src="{% static 'img/manage-lessons.jpg' %}" alt="Lessons">
+        <h4 class="mt-3">Manage Lessons</h4>
+        <a href="{% url 'select_course_for_lessons' %}" class="btn dashboard-btn mt-3">MANAGE</a>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="card-box bg4">
+        <img src="{% static 'img/enrollement.jpg' %}" alt="Enrollments">
+        <h4 class="mt-3">Enrollments</h4>
+        <a href="{% url 'instructor_enrollments' %}" class="btn dashboard-btn mt-3">TRACK</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

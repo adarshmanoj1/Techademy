@@ -1,0 +1,20 @@
+from django.contrib import admin
+from django.urls import path, include
+from core.views import homepage
+from accounts.views import login_view
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', homepage, name='homepage'),
+    path('login/', login_view, name='login'),
+    path('register/', include('accounts.urls')),
+    path('student/', include('student.urls')),
+    path('instructor/', include('instructor.urls')),
+    path('adminpanel/', include('adminpanel.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

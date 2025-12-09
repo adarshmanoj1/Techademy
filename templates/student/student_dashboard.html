@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard | Techademy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      padding-top: 70px;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .nav-link {
+      color: #fff !important;
+      transition: 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #00ffd0 !important;
+    }
+
+    .hero-section {
+      background: url('{% static "img/stu_hero.jpeg" %}') center center/cover no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 100px 0;
+      border-bottom: 2px solid #444;
+    }
+
+    .hero-section h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #00c6ff;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .hero-section p {
+      font-size: 20px;
+      color: #ccc;
+      animation: fadeInUp 1s ease-in-out;
+    }
+
+    .dashboard-card {
+      background-color: #1f1f1f;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 198, 255, 0.2);
+    }
+
+    .dashboard-card h5 {
+      color: #00d9ff;
+      font-weight: 600;
+    }
+
+    .dashboard-card p {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .progress {
+      height: 8px;
+      background-color: #333;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+    }
+
+    .btn-custom {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      padding: 10px 18px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      transform: scale(1.02);
+    }
+
+    .footer {
+      background-color: #0a0a0a;
+      color: #888;
+      padding: 25px 0;
+      text-align: center;
+      border-top: 1px solid #222;
+      margin-top: 80px;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #fff !important;
+      color: #121212 !important;
+    }
+
+    .btn-primary {
+      background: #00c6ff;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #00b5e2;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+  <div class="container">
+    <a class="navbar-brand" href="#">Techademy</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
+        <li class="nav-item"><a href="{% url 'edit_student_profile' %}" class="nav-link">Profile</a></li>
+        <li class="nav-item"><a href="{% url 'logout_student' %}" class="nav-link">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-section">
+  <div class="container">
+    <h1>Welcome, {{ request.user.first_name }}</h1>
+    <p>“Learning never exhausts the mind. Keep growing!”</p>
+  </div>
+</section>
+
+<div class="container mt-5">
+  <div class="row">
+    {% for enrollment in enrollments %}
+      <div class="col-md-6 col-lg-4">
+     <div class="dashboard-card d-flex flex-column flex-md-row align-items-start gap-3 mb-4 p-3 bg-dark rounded shadow">
+
+  <!-- Course Thumbnail -->
+  <div class="thumbnail-container" style="flex: 0 0 150px;">
+    <img src="{{ enrollment.course.thumbnail.url }}" alt="Course Thumbnail" class="img-fluid rounded" style="max-height: 100px; object-fit: cover;">
+  </div>
+
+  <!-- Course Details -->
+  <div class="flex-fill">
+    <h5 class="text-info">{{ enrollment.course.title }}</h5>
+    <p class="text-light small mb-2">{{ enrollment.course.description|truncatewords:15 }}</p>
+
+    <!-- Progress -->
+    <div class="mb-2 text-white-50"><strong>Progress:</strong> {{ enrollment.progress }}%</div>
+    <div class="progress mb-3" style="height: 8px;">
+      <div class="progress-bar bg-info" style="width: {{ enrollment.progress }}%;"></div>
+    </div>
+
+    <!-- Action Button -->
+    {% if enrollment.next_lesson %}
+      <a href="{% url 'view_lesson' enrollment.next_lesson.id %}" class="btn btn-sm btn-custom w-100">Resume Course</a>
+    {% else %}
+      <button class="btn btn-sm btn-secondary w-100" disabled>No Lessons Available</button>
+    {% endif %}
+  </div>
+
+</div>
+
+      </div>
+    {% empty %}
+      <p class="text-center">You haven’t enrolled in any course yet. Start your journey now!</p>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-5">
+    <a href="{% url 'browse_course' %}" class="btn btn-primary me-2">Browse Courses</a>
+    {% if enrollments %}
+      <a href="{% url 'student_certificates' enrollments.0.course.id %}" class="btn btn-outline-light">My Certificates</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2025 Techademy. All rights reserved.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

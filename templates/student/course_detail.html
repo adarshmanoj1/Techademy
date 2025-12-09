@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ course.title }} | Techademy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .course-container {
+      padding: 40px 20px;
+    }
+
+    .course-card {
+      background: linear-gradient(145deg, #1a1a1a, #2c2c2c);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      transition: 0.4s ease;
+    }
+
+    .course-img {
+      border-radius: 15px;
+      height: 220px;
+      object-fit: cover;
+      transition: 0.3s ease-in-out;
+    }
+
+    .btn-enroll {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      color: white;
+      border-radius: 30px;
+      padding: 12px 25px;
+      font-weight: 500;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-enroll:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    .btn-warning {
+      border-radius: 30px;
+      font-weight: 500;
+    }
+
+    .section-title {
+      color: #00ffe0;
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 60px;
+      margin-bottom: 20px;
+    }
+
+    .lesson-item {
+      background-color: #1e1e1e;
+      border-left: 5px solid #00c6ff;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .lesson-item:hover {
+      background-color: #292929;
+    }
+
+    .lesson-title {
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .badge-complete {
+      background-color: #27ae60;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    .instructor-box {
+      background-color: #252525;
+      border-left: 4px solid #00c6ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+
+    .instructor-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #00c6ff;
+    }
+
+    .text-muted {
+      color: #bbb !important;
+    }
+
+    .btn-sm {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container course-container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="course-card">
+        <h2 class="mb-3">{{ course.title }}</h2>
+        <img src="{{ course.thumbnail.url }}" alt="Course Thumbnail" class="img-fluid course-img mb-4 w-100">
+
+        <p><strong>Category:</strong> {{ course.category }}</p>
+        <p><strong>Price:</strong> ₹{{ course.price }}</p>
+        <p>{{ course.description }}</p>
+
+        {% if is_enrolled %}
+          <a href="#" class="btn btn-success disabled w-100">Already Enrolled</a>
+        {% else %}
+          {% if course.price > 0 %}
+            <a href="{% url 'start_payment' course.id %}" class="btn btn-warning w-100">Pay ₹{{ course.price }} to Enroll</a>
+          {% else %}
+            <a href="{% url 'enroll_course' course.id %}" class="btn btn-enroll w-100">Enroll Now (Free)</a>
+          {% endif %}
+        {% endif %}
+
+        <div class="instructor-box mt-4">
+          <p class="instructor-name">Instructor: {{ course.instructor.get_full_name }}</p>
+          <p class="text-muted mb-0">{{ course.instructor.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title text-center">Lessons</div>
+  {% if lessons %}
+    <div class="row">
+      {% for lesson in lessons %}
+        <div class="col-md-6">
+          <div class="lesson-item d-flex justify-content-between align-items-center">
+            <div>
+              <div class="lesson-title">{{ lesson.title }}</div>
+              <small class="text-muted">⏱ Duration: {{ lesson.duration }} mins</small>
+              {% if lesson.id in completed_lessons %}
+                <span class="badge badge-complete ms-2">Completed</span>
+              {% endif %}
+            </div>
+            <a href="{% url 'view_lesson' lesson.id %}" class="btn btn-sm btn-outline-light">▶ Watch</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted text-center">No lessons added yet.</p>
+  {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
